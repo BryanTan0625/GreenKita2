@@ -37,6 +37,8 @@ public class EducationModule {
                 case 5 -> {
                     saveUserData();
                     System.out.println("✅ Exiting. Data saved.");
+                    Main.mainPage();
+
                     return;
                 }
                 default -> System.out.println("Invalid choice. Try again.");

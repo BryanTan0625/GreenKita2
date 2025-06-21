@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 class User {
+    String username;
     String name;
     int mileage;
     int coins;
@@ -14,8 +15,13 @@ class User {
     int commuteStreak;
     int referrals;
     int socialShares;
+    public int age;
+    public String gender;
+    public String password;
+    public String bio;
 
-    public User(String name) {
+    public User(String username, String name, int age, String gender, String password, String bio) {
+        this.username = name;
         this.name = name;
         this.mileage = 0;
         this.coins = 0;
@@ -23,6 +29,13 @@ class User {
         this.commuteStreak = 0;
         this.referrals = 0;
         this.socialShares = 0;
+        this.age = age;
+        this.gender = gender;
+        this.password = password;
+        this.bio = bio;
+    }
+
+    public User(String username) {
     }
 
     public void addMileage(int km) {
@@ -122,11 +135,11 @@ class User {
 
 
 public class TransportRewardSystem {
-    public static void main(String[] args) {
+    public static void main(String username) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter your name to start: ");
-        String username = scanner.nextLine();
+        String name = scanner.nextLine();
         User user = new User(username);
 
         int choice;
@@ -183,7 +196,7 @@ public class TransportRewardSystem {
                     break;
 
                 case 0:
-                    System.out.println("Goodbye! 🌿 Keep riding green.");
+                    Main.mainPage();
                     break;
 
                 default:

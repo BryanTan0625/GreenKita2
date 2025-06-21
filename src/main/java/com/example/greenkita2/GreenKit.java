@@ -1,4 +1,4 @@
-package com.example.greenkita;
+package com.example.greenkita2; // Fixed package name
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -17,7 +17,7 @@ public class GreenKit {
     static Random random = new Random();
 
     static List<HistoryEntry> history = new ArrayList<>();
-    static Map<String, Integer> userLeaderboard = new HashMap<>(); // Mock leaderboard
+    static Map<String, Integer> userLeaderboard = new HashMap<>();
 
     static class HistoryEntry {
         String date;
@@ -38,15 +38,14 @@ public class GreenKit {
         }
     }
 
-    public static void main(String[] args) {
+    public static void runRecycleModule(String username) {
         Scanner scanner = new Scanner(System.in);
         String input;
 
         System.out.println("♻️ Welcome to the Recycle & Upcycle Console App!");
         System.out.println(MACHINE_ADDRESS);
+        System.out.println("User: " + username);
 
-        System.out.print("Enter your username: ");
-        String username = scanner.nextLine();
         userLeaderboard.putIfAbsent(username, 0);
 
         do {
@@ -55,7 +54,7 @@ public class GreenKit {
             System.out.println("2. Upcycle / Donate Item");
             System.out.println("3. Show Stats");
             System.out.println("4. Show History");
-            System.out.println("0. Exit");
+            System.out.println("0. Back to Main Menu");
             System.out.print("Enter choice: ");
             input = scanner.nextLine();
 
@@ -73,15 +72,14 @@ public class GreenKit {
                     showHistory();
                     break;
                 case "0":
-                    System.out.println("Goodbye! 🌱");
+                    Main.mainPage();
+
                     break;
                 default:
                     System.out.println("Invalid option.");
             }
 
         } while (!input.equals("0"));
-
-        scanner.close();
     }
 
     private static void recordBottles(Scanner scanner, String username) {
@@ -102,8 +100,8 @@ public class GreenKit {
             HistoryEntry entry = new HistoryEntry(date, "Recycle", bottles + " bottles", coinsEarned);
             history.add(entry);
 
-            // ✅ Save entry to the file immediately
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("recycle_history.txt", true))) {
+            // Save entry to the file immediately
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("recycle_history_" + username + ".txt", true))) {
                 writer.write(entry.toString());
                 writer.newLine();
             } catch (IOException e) {
@@ -136,7 +134,16 @@ public class GreenKit {
         userLeaderboard.put(username, userLeaderboard.get(username) + coinsEarned);
 
         String date = LocalDate.now().toString();
-        history.add(new HistoryEntry(date, action, item, coinsEarned));
+        HistoryEntry entry = new HistoryEntry(date, action, item, coinsEarned);
+        history.add(entry);
+
+        // Save to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("recycle_history_" + username + ".txt", true))) {
+            writer.write(entry.toString());
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("⚠️ Failed to write history to file.");
+        }
 
         System.out.println("✅ You earned +" + coinsEarned + " coins!");
         checkAchievements();
@@ -148,15 +155,6 @@ public class GreenKit {
             return baseCoins + 20;
         }
         return baseCoins;
-    }
-
-    private static void writeToFile(HistoryEntry entry) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("recycle_history.txt", true))) {
-            writer.write(entry.toString());
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("⚠️ Failed to write history to file.");
-        }
     }
 
     private static void checkAchievements() {
@@ -195,18 +193,6 @@ public class GreenKit {
             System.out.println("(No entries yet.)");
         } else {
             history.forEach(System.out::println);
-        }
-
-        System.out.println("\n📁 History Log (from file):");
-        try (Scanner fileScanner = new Scanner(new java.io.File("recycle_history.txt"))) {
-            if (!fileScanner.hasNextLine()) {
-                System.out.println("(No entries in file yet.)");
-            }
-            while (fileScanner.hasNextLine()) {
-                System.out.println(fileScanner.nextLine());
-            }
-        } catch (IOException e) {
-            System.out.println("⚠️ Unable to read history file.");
         }
     }
 }
