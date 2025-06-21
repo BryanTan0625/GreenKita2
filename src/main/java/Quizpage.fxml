@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+
+
+<MenuButton layoutX="-77.0" layoutY="104.0" mnemonicParsing="false" popupSide="RIGHT" text="MenuButton" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <items>
+        <MenuItem mnemonicParsing="false" text="Home" />
+        <MenuItem mnemonicParsing="false" text="Recycling" />
+        <MenuItem mnemonicParsing="false" text="Education" />
+        <MenuItem mnemonicParsing="false" text="Transport" />
+        <MenuItem mnemonicParsing="false" text="Activism " />
+    </items>
+</MenuButton>

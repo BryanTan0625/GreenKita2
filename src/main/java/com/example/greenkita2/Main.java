@@ -83,8 +83,6 @@ public class Main {
                     case 6:
                         Activism.main();
                         break;
-
-
                     case 0:
                         System.out.println("Logging out... See you soon, " + currentUser.name + "!");
                         currentUser = null;
